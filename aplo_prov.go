@@ -25,36 +25,33 @@ import (
     "log"
     "os"
     "flag"
+    "time"
    // One other dockerclient
     "github.com/fsouza/go-dockerclient"
+   // "github.com/GoogleCloudPlatform/kubernetes/pkg/client"
+   // "github.com/GoogleCloudPlatform/kubernetes/pkg/api"
+  //  "github.com/GoogleCloudPlatform/kubernetes/pkg/labels"
+   // "github.com/mdevilliers/kubernetes/pkg/client"
 )
 
 var (
     APLO_VERSION = "1.0"
    // configfile string
     image string
+    mode string
     showVersion bool
 
 )
 
 func init() {
     flag.StringVar(&image, "image", "", "Docker Image Name")
+    flag.StringVar(&mode, "mode", "", "Mode of Operation")
+
    // flag.StringVar(&configfile, "config", "", "Configuration file")
     flag.BoolVar(&showVersion, "version", false, "Show version")
 }
 
-func main() {
-    
-    fmt.Println("Info: Aplo Provisioner ")
-    
-    flag.Parse()
-    
-    /*
-    if image == " " {
-        fmt.Println("No image provided, working on gluster/gluster-centos")
-        image := "gluster-centos"
-    }
-    */
+func docker_mode() {
 
     fmt.Printf("Docker Image :%s", image)
 
@@ -174,7 +171,34 @@ func main() {
     /*
     fmt.Printf("ID", containers.ID)
     */
+}
+
+func main() {
     
+    fmt.Println("Info: Aplo Provisioner ")
+    
+    flag.Parse()
+    
+    /*
+    if image == " " {
+        fmt.Println("No image provided, working on gluster/gluster-centos")
+        image := "gluster-centos"
+    }
+    */
+
+    if mode == "docker" {
+        fmt.Println("Docker mode of execution ..exiting")
+        go docker_mode ()
+        time.Sleep(10000 * time.Millisecond)
+        os.Exit(1)
+    }
+
+
+    
+    if mode == "kube" {
+        fmt.Println("Kubernetes ..Proceeding")
+    }
+
     
 
 }
