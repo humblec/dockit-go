@@ -28,10 +28,24 @@ import (
     "time"
    // One other dockerclient
     "github.com/fsouza/go-dockerclient"
-   // "github.com/GoogleCloudPlatform/kubernetes/pkg/client"
-   // "github.com/GoogleCloudPlatform/kubernetes/pkg/api"
-  //  "github.com/GoogleCloudPlatform/kubernetes/pkg/labels"
-   // "github.com/mdevilliers/kubernetes/pkg/client"
+    //"golang.org/x/build/kubernetes"
+    //"net/http"
+    
+    client "github.com/kubernetes/kubernetes/pkg/client/unversioned"
+    //"github.com/kubernetes/kubernetes/pkg/client/unversioned"
+    //"github.com/kubernetes/kubernetes/pkg/labels"
+    "github.com/kubernetes/kubernetes/pkg/api"
+   
+   // Next 3 repos does not exist
+
+    // "github.com/GoogleCloudPlatform/kubernetes/pkg/client"
+    // "github.com/GoogleCloudPlatform/kubernetes/pkg/api"
+    // "github.com/GoogleCloudPlatform/kubernetes/pkg/labels"
+    
+    // Below repo have an error 
+    //# k8s.io/kubernetes/pkg/util/parsers
+    //../src/k8s.io/kubernetes/pkg/util/parsers/parsers.go:30: undefined: parsers.ParseRepositoryTag
+    //client "github.com/mdevilliers/kubernetes/pkg/client"
 )
 
 var (
@@ -197,6 +211,34 @@ func main() {
     
     if mode == "kube" {
         fmt.Println("Kubernetes ..Proceeding")
+       //http_client := http.Client()
+        //kubernetes.NewClient("http://master:8008",http_client)
+
+
+        config := client.Config{
+        Host: "http://kube-master:8080",
+        }
+        
+
+        c, err := client.New(&config)
+        
+
+        if err != nil {
+            log.Fatalln("Can't connect to Kubernetes API:", err)
+        }
+
+        s, err := c.Services(api.NamespaceDefault).Get("glusterfs")
+        
+        if err != nil {
+            log.Fatalln("Can't get service:", err)
+        }
+        
+        fmt.Println("Name:", s.Name)
+        
+        for p, _ := range s.Spec.Ports {
+            fmt.Println("Port:", s.Spec.Ports[p].Port)
+            fmt.Println("NodePort:", s.Spec.Ports[p].NodePort)
+        }
     }
 
     
