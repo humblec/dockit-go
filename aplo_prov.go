@@ -36,16 +36,16 @@ import (
 
 var (
 	APLO_VERSION = "1.0"
-	// configfile string
-	image       string
-	mode        string
-	showVersion bool
+	configfile   string
+	image        string
+	mode         string
+	showVersion  bool
 )
 
 func init() {
 	flag.StringVar(&image, "image", "", "Docker Image Name")
 	flag.StringVar(&mode, "mode", "", "Mode of Operation")
-	// flag.StringVar(&configfile, "config", "", "Configuration file")
+	flag.StringVar(&configfile, "config", "", "Configuration file")
 	flag.BoolVar(&showVersion, "version", false, "Show version")
 }
 
@@ -79,7 +79,7 @@ func docker_mode() {
 	for _, img := range imgs {
 		fmt.Println("ID: ", img.ID)
 		fmt.Println("\t RepoTags: ", img.RepoTags)
-		// Other Atteibutes of the images if needed in future
+		// Other Attributes of the images if needed
 		//fmt.Println("\t \t Created: ", img.Created)
 		//fmt.Println("\t \t Size: ", img.Size)
 		//fmt.Println("\t \t \tVirtualSize: ", img.VirtualSize)
