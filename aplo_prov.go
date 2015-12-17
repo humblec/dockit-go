@@ -212,9 +212,7 @@ func main() {
     
     if mode == "kube" {
         fmt.Println("Kubernetes ..Proceeding")
-       //http_client := http.Client()
-        //kubernetes.NewClient("http://master:8008",http_client)
-
+       
 
         config := client.Config{
         Host: "http://10.70.42.184:8080",
@@ -228,7 +226,7 @@ func main() {
             log.Fatalln("Can't connect to Kubernetes API:", err)
         }
 
-        //fmt.Println(c)
+       
 
         /* Section START : Services */ 
 
