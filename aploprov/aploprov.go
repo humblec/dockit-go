@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 
-package main
+package aploprov
 
 import (
 	"flag"
@@ -33,21 +33,6 @@ import (
 	// k8s.io/kubernetes/pkg/util/parsers
 	//../src/k8s.io/kubernetes/pkg/util/parsers/parsers.go:30: undefined: parsers.ParseRepositoryTag
 )
-
-var (
-	APLO_VERSION = "1.0"
-	configfile   string
-	image        string
-	mode         string
-	showVersion  bool
-)
-
-func init() {
-	flag.StringVar(&image, "image", "", "Docker Image Name")
-	flag.StringVar(&mode, "mode", "", "Mode of Operation")
-	flag.StringVar(&configfile, "config", "", "Configuration file")
-	flag.BoolVar(&showVersion, "version", false, "Show version")
-}
 
 func docker_mode() {
 
@@ -183,42 +168,44 @@ func main() {
 		os.Exit(1)
 	}
 
-	if mode == "kube" {
-		fmt.Println("Kubernetes ..Proceeding")
+func kube () {
 
-		config := client.Config{
-			Host: "http://10.70.42.184:8080",
-		}
 
-		c, err := client.New(&config)
+	fmt.Println("Kubernetes ..Proceeding")
 
-		if err != nil {
-			log.Fatalln("Can't connect to Kubernetes API:", err)
-		}
+	config := client.Config{
+	Host: "http://10.70.42.184:8080",
+	
+
+	c, err := client.New(&config)
+
+	if err != nil {
+		log.Fatalln("Can't connect to Kubernetes API:", err)
+	}
 
 		/* Section START : Services */
 
-		s, err := c.Services(api.NamespaceDefault).Get("db-service")
+	s, err := c.Services(api.NamespaceDefault).Get("db-service")
 
-		if err != nil {
-			log.Fatalln("Can't get service:", err)
-		}
+	if err != nil {
+		log.Fatalln("Can't get service:", err)
+	}
 
-		fmt.Println("Name:", s.Name)
+	fmt.Println("Name:", s.Name)
 
-		fmt.Println(s.Spec)
-		for p, _ := range s.Spec.Ports {
-			fmt.Println("Port:", s.Spec.Ports[p].Port)
-			fmt.Println("NodePort:", s.Spec.Ports[p].NodePort)
-		}
+	fmt.Println(s.Spec)
+	for p, _ := range s.Spec.Ports {
+		fmt.Println("Port:", s.Spec.Ports[p].Port)
+		fmt.Println("NodePort:", s.Spec.Ports[p].NodePort)
+	}
 
 		/* Section END : Services */
 
 		/* Section START : Nodes */
 
-		node := c.Nodes()
-		fmt.Println("Nodes in your kubernetes Cluster")
-		fmt.Println(node.List(k8api.ListOptions{}))
+	node := c.Nodes()
+	fmt.Println("Nodes in your kubernetes Cluster")
+	fmt.Println(node.List(k8api.ListOptions{}))
 
 		/*
 		   k8nodes,  := node.List(k8api.ListOptions{})
@@ -230,6 +217,6 @@ func main() {
 
 		/* Section END : Nodes */
 
-	}
+	
 
 }
