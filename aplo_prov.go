@@ -21,30 +21,17 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/fsouza/go-dockerclient"
+	"github.com/kubernetes/kubernetes/pkg/api"
+	client "github.com/kubernetes/kubernetes/pkg/client/unversioned"
+	k8api "k8s.io/kubernetes/pkg/api"
 	"log"
 	"os"
 	"time"
-	// One other dockerclient
-	"github.com/fsouza/go-dockerclient"
-	//"golang.org/x/build/kubernetes"
-	//"net/http"
-
-	client "github.com/kubernetes/kubernetes/pkg/client/unversioned"
-	//"github.com/kubernetes/kubernetes/pkg/client/unversioned"
-	//"github.com/kubernetes/kubernetes/pkg/labels"
-	"github.com/kubernetes/kubernetes/pkg/api"
-
-	k8api "k8s.io/kubernetes/pkg/api"
-	// Next 3 repos does not exist
-
-	// "github.com/GoogleCloudPlatform/kubernetes/pkg/client"
-	// "github.com/GoogleCloudPlatform/kubernetes/pkg/api"
-	// "github.com/GoogleCloudPlatform/kubernetes/pkg/labels"
-
 	// Below repo have an error
-	//# k8s.io/kubernetes/pkg/util/parsers
+	// client "github.com/mdevilliers/kubernetes/pkg/client"
+	// k8s.io/kubernetes/pkg/util/parsers
 	//../src/k8s.io/kubernetes/pkg/util/parsers/parsers.go:30: undefined: parsers.ParseRepositoryTag
-	//client "github.com/mdevilliers/kubernetes/pkg/client"
 )
 
 var (
@@ -58,7 +45,6 @@ var (
 func init() {
 	flag.StringVar(&image, "image", "", "Docker Image Name")
 	flag.StringVar(&mode, "mode", "", "Mode of Operation")
-
 	// flag.StringVar(&configfile, "config", "", "Configuration file")
 	flag.BoolVar(&showVersion, "version", false, "Show version")
 }
@@ -73,8 +59,6 @@ func docker_mode() {
 
 	client, _ := docker.NewClient(endpoint)
 
-	//fmt.Println("Client is :", client)
-
 	if client == nil {
 		fmt.Println("Failed to connect to the Docker Deamon.. exiting")
 		os.Exit(1)
@@ -85,7 +69,6 @@ func docker_mode() {
 	imgs, _ := client.ListImages(docker.ListImagesOptions{All: false})
 
 	// If we want to list all the images
-
 	//imgs, _ := client.ListImages(docker.ListImagesOptions{All: true})
 
 	if imgs == nil {
@@ -96,12 +79,13 @@ func docker_mode() {
 	for _, img := range imgs {
 		fmt.Println("ID: ", img.ID)
 		fmt.Println("\t RepoTags: ", img.RepoTags)
+		// Other Atteibutes of the images if needed in future
 		//fmt.Println("\t \t Created: ", img.Created)
 		//fmt.Println("\t \t Size: ", img.Size)
 		//fmt.Println("\t \t \tVirtualSize: ", img.VirtualSize)
 		//fmt.Println("\t \t \t \tParentId: ", img.ParentID)
 
-		//"docker.io/gluster/gluster-centos"
+		// Gluster Image : "docker.io/gluster/gluster-centos"
 		if img.RepoTags != nil {
 			fmt.Println("Image: ", img.RepoTags)
 		}
@@ -115,6 +99,7 @@ func docker_mode() {
 	}
 	fmt.Println(infoenv)
 
+	// If we add support for specific OSs use below tag
 	//fmt.Println(infoenv.Get("OperatingSystem"))
 
 	docker_driver := infoenv.Get("Driver")
@@ -156,9 +141,8 @@ func docker_mode() {
 
 	}
 
-	//client.CreateContainer(docker.CreateContainerOptions{"gluster-centos",containerConfig, hostConfig})
 	gluster_container, err := client.CreateContainer(docker.CreateContainerOptions{"gluster-centos", containerConfig, hostConfig})
-	//client.CreateContainer()
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -172,6 +156,7 @@ func docker_mode() {
 	if new_container != nil {
 		fmt.Println("Gluster Container Started with ID:", new_container)
 	}
+
 	//fmt.Println(containers)
 	/*
 	   fmt.Printf("ID", containers.ID)
