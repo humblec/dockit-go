@@ -35,7 +35,8 @@ import (
     //"github.com/kubernetes/kubernetes/pkg/client/unversioned"
     //"github.com/kubernetes/kubernetes/pkg/labels"
     "github.com/kubernetes/kubernetes/pkg/api"
-   
+
+    k8api "k8s.io/kubernetes/pkg/api"
    // Next 3 repos does not exist
 
     // "github.com/GoogleCloudPlatform/kubernetes/pkg/client"
@@ -216,7 +217,7 @@ func main() {
 
 
         config := client.Config{
-        Host: "http://kube-master:8080",
+        Host: "http://10.70.42.184:8080",
         }
         
 
@@ -227,18 +228,46 @@ func main() {
             log.Fatalln("Can't connect to Kubernetes API:", err)
         }
 
-        s, err := c.Services(api.NamespaceDefault).Get("glusterfs")
+        //fmt.Println(c)
+
+        /* Section START : Services */ 
+
+        s, err := c.Services(api.NamespaceDefault).Get("db-service")
         
         if err != nil {
             log.Fatalln("Can't get service:", err)
         }
         
         fmt.Println("Name:", s.Name)
+
         
+        fmt.Println(s.Spec)
         for p, _ := range s.Spec.Ports {
             fmt.Println("Port:", s.Spec.Ports[p].Port)
             fmt.Println("NodePort:", s.Spec.Ports[p].NodePort)
         }
+
+        /* Section END : Services */
+
+        
+
+        /* Section START : Nodes */
+
+        node := c.Nodes()
+        fmt.Println("Nodes in your kubernetes Cluster")
+        fmt.Println(node.List(k8api.ListOptions{}))
+       
+        /*
+        k8nodes,  := node.List(k8api.ListOptions{})
+        fmt.Println(k8nodes)
+        /*
+        for node := range k8nodes {
+            fmt.Println(k8node)
+        }*/
+        
+       
+        /* Section END : Nodes */ 
+
     }
 
     
