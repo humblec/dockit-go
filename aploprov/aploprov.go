@@ -148,42 +148,20 @@ func docker_mode() {
 	*/
 }
 
-func main() {
-
-	fmt.Println("Info: Aplo Provisioner ")
-
-	flag.Parse()
-
-	/*
-	   if image == " " {
-	       fmt.Println("No image provided, working on gluster/gluster-centos")
-	       image := "gluster-centos"
-	   }
-	*/
-
-	if mode == "docker" {
-		fmt.Println("Docker mode of execution ..exiting")
-		go docker_mode()
-		time.Sleep(10000 * time.Millisecond)
-		os.Exit(1)
-	}
-
-func kube () {
-
+func kube() {
 
 	fmt.Println("Kubernetes ..Proceeding")
 
 	config := client.Config{
-	Host: "http://10.70.42.184:8080",
-	
-
+		Host: "http://10.70.42.184:8080",
+	}
 	c, err := client.New(&config)
 
 	if err != nil {
 		log.Fatalln("Can't connect to Kubernetes API:", err)
 	}
 
-		/* Section START : Services */
+	/* Section START : Services */
 
 	s, err := c.Services(api.NamespaceDefault).Get("db-service")
 
@@ -194,29 +172,29 @@ func kube () {
 	fmt.Println("Name:", s.Name)
 
 	fmt.Println(s.Spec)
+
 	for p, _ := range s.Spec.Ports {
 		fmt.Println("Port:", s.Spec.Ports[p].Port)
 		fmt.Println("NodePort:", s.Spec.Ports[p].NodePort)
 	}
 
-		/* Section END : Services */
+	/* Section END : Services */
 
-		/* Section START : Nodes */
+	/* Section START : Nodes */
 
 	node := c.Nodes()
+
 	fmt.Println("Nodes in your kubernetes Cluster")
 	fmt.Println(node.List(k8api.ListOptions{}))
 
-		/*
-		   k8nodes,  := node.List(k8api.ListOptions{})
-		   fmt.Println(k8nodes)
-		   /*
-		   for node := range k8nodes {
-		       fmt.Println(k8node)
-		   }*/
+	/*
+	   k8nodes,  := node.List(k8api.ListOptions{})
+	   fmt.Println(k8nodes)
+	   /*
+	   for node := range k8nodes {
+	       fmt.Println(k8node)
+	   }*/
 
-		/* Section END : Nodes */
-
-	
+	/* Section END : Nodes */
 
 }
