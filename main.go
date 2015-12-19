@@ -33,7 +33,7 @@ import (
 	// k8s.io/kubernetes/pkg/util/parsers
 	//../src/k8s.io/kubernetes/pkg/util/parsers/parsers.go:30: undefined: parsers.ParseRepositoryTag
 	//"github.com/humblec/aplo-prov/aploprov"
-	//heketicli "github.com/humblec/aplo-prov/heketicli"
+	heketicli "github.com/humblec/aplo-prov/heketicli"
 )
 
 var (
