@@ -16,10 +16,12 @@
 // limitations under the License.
 //
 
+//package main
+
 package aploprov
 
 import (
-	"flag"
+	//"flag"
 	"fmt"
 	"github.com/fsouza/go-dockerclient"
 	"github.com/kubernetes/kubernetes/pkg/api"
@@ -34,11 +36,18 @@ import (
 	//../src/k8s.io/kubernetes/pkg/util/parsers/parsers.go:30: undefined: parsers.ParseRepositoryTag
 )
 
+var (
+	dockerImage  = "gluster/gluster-centos"
+	dockerSocket = "unix:///var/run/docker.sock"
+	kubeHost     = "http://10.70.42.184:8080"
+	kubeService  = "gluster"
+)
+
 func docker_mode() {
 
-	fmt.Printf("Docker Image :%s", image)
+	fmt.Printf("Docker Image :%s", dockerImage)
 
-	endpoint := "unix:///var/run/docker.sock"
+	endpoint := dockerSocket
 
 	fmt.Println("\n Aplo Provisioner Connected to the Docker Deamon")
 
@@ -142,6 +151,8 @@ func docker_mode() {
 		fmt.Println("Gluster Container Started with ID:", new_container)
 	}
 
+	fmt.Println("End of Docker Handler")
+
 	//fmt.Println(containers)
 	/*
 	   fmt.Printf("ID", containers.ID)
@@ -153,17 +164,15 @@ func kube() {
 	fmt.Println("Kubernetes ..Proceeding")
 
 	config := client.Config{
-		Host: "http://10.70.42.184:8080",
+		Host: kubeHost,
 	}
 	c, err := client.New(&config)
 
 	if err != nil {
-		log.Fatalln("Can't connect to Kubernetes API:", err)
+		log.Fatalln("Cant connect to Kubernetes API:", err)
 	}
 
-	/* Section START : Services */
-
-	s, err := c.Services(api.NamespaceDefault).Get("db-service")
+	s, err := c.Services(api.NamespaceDefault).Get(kubeService)
 
 	if err != nil {
 		log.Fatalln("Can't get service:", err)
@@ -178,14 +187,11 @@ func kube() {
 		fmt.Println("NodePort:", s.Spec.Ports[p].NodePort)
 	}
 
-	/* Section END : Services */
-
-	/* Section START : Nodes */
-
 	node := c.Nodes()
 
 	fmt.Println("Nodes in your kubernetes Cluster")
 	fmt.Println(node.List(k8api.ListOptions{}))
+	fmt.Println("End of Kubernetes Handler")
 
 	/*
 	   k8nodes,  := node.List(k8api.ListOptions{})
@@ -195,6 +201,14 @@ func kube() {
 	       fmt.Println(k8node)
 	   }*/
 
-	/* Section END : Nodes */
+}
+
+/*
+func main() {
+	go docker_mode()
+	go kube()
+	time.Sleep(1000 * time.Millisecond)
 
 }
+
+*/
