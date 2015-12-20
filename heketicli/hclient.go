@@ -1,6 +1,6 @@
 //package main
 
-package hclient
+package heketicli
 
 import (
 	"fmt"
