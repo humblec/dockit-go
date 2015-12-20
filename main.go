@@ -21,19 +21,15 @@ package main
 import (
 	"flag"
 	"fmt"
-	//"github.com/fsouza/go-dockerclient"
-	//"github.com/kubernetes/kubernetes/pkg/api"
-	//client "github.com/kubernetes/kubernetes/pkg/client/unversioned"
-	//k8api "k8s.io/kubernetes/pkg/api"
-	//"log"
+	aploprov "github.com/humblec/aplo-prov/aploprov"
+	heketicli "github.com/humblec/aplo-prov/heketicli"
 	"os"
 	"time"
+
 	// Below repo have an error
 	// client "github.com/mdevilliers/kubernetes/pkg/client"
 	// k8s.io/kubernetes/pkg/util/parsers
 	//../src/k8s.io/kubernetes/pkg/util/parsers/parsers.go:30: undefined: parsers.ParseRepositoryTag
-	"github.com/humblec/aplo-prov/aploprov"
-	heketicli "github.com/humblec/aplo-prov/heketicli"
 )
 
 var (
@@ -74,7 +70,7 @@ func main() {
 
 	if mode == "kube" {
 		fmt.Println("Kubernetes ..Proceeding")
-		go aploprov.KubeMode()
+		go aploprov.Kubemode()
 		time.Sleep(10000 * time.Millisecond)
 		os.Exit(1)
 

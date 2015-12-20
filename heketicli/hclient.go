@@ -1,22 +1,8 @@
-//package main
-
 package heketicli
 
 import (
 	"fmt"
 	hclient "github.com/heketi/heketi/client/api/go-client"
-	//"github.com/heketi/heketi/apps/glusterfs"
-	//"crypto/sha256"
-	//"encoding/hex"
-	//"github.com/heketi/heketi"
-
-	//jwt "github.com/dgrijalva/jwt-go"
-	//"github.com/heketi/heketi/apps/glusterfs"
-	//"github.com/heketi/utils"
-	//"net/http"
-	//"io/ioutil"
-
-	//"time"
 )
 
 var (
@@ -27,13 +13,12 @@ var (
 
 func Connect() {
 
-	//func main() {
-
 	fmt.Println("Heketi Client")
 
 	heketi_handler := hclient.NewClient(HEKETI_HOST, HEKETI_USER, HEKETI_KEY)
 
 	//heketi_handler := hclient.NewClient("10.70.1.40", "", "")
+
 	if heketi_handler == nil {
 		fmt.Println("Failed to initiate the heketi client")
 	}
