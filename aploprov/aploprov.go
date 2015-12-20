@@ -29,7 +29,7 @@ import (
 	k8api "k8s.io/kubernetes/pkg/api"
 	"log"
 	"os"
-	"time"
+	//"time"
 	// Below repo have an error
 	// client "github.com/mdevilliers/kubernetes/pkg/client"
 	// k8s.io/kubernetes/pkg/util/parsers
@@ -192,7 +192,6 @@ func Kubemode() {
 	fmt.Println("Nodes in your kubernetes Cluster")
 	fmt.Println(node.List(k8api.ListOptions{}))
 	fmt.Println("End of Kubernetes Handler")
-	time.Sleep(1000 * time.Millisecond)
 
 	/*
 	   k8nodes,  := node.List(k8api.ListOptions{})
