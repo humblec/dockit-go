@@ -37,7 +37,9 @@ import (
 )
 
 var (
-	dockerImage  = "gluster/gluster-centos"
+	dockerrepotag = "docker.io/gluster/gluster-centos"
+	//dockerImage   = "gluster-centos"
+	dockerImage  = "fed20-gluster"
 	dockerSocket = "unix:///var/run/docker.sock"
 	kubeHost     = "http://10.70.42.184:8080"
 	kubeService  = "gluster"
@@ -91,6 +93,7 @@ func Dockermode() {
 		fmt.Println("Failed to Get Docker Info.. exiting")
 		os.Exit(1)
 	}
+
 	fmt.Println(infoenv)
 
 	// If we add support for specific OSs use below tag
@@ -110,14 +113,14 @@ func Dockermode() {
 
 		fmt.Println("\n Names:", container.Names)
 		fmt.Println(" \t Container ID:", container.ID)
-		if container.Image == "docker.io/gluster/gluster-centos" {
+		if container.Image == dockerrepotag {
 			fmt.Println("\n You already have a gluster Container running")
 
 		}
 
 	}
 
-	fmt.Println("Create a Gluster Container")
+	fmt.Println("Create a Container with image", dockerImage)
 
 	b := make(map[string][]docker.PortBinding)
 
@@ -126,7 +129,7 @@ func Dockermode() {
 	hostConfig := &docker.HostConfig{}
 
 	containerConfig := &docker.Config{
-		Image:       "docker.io/gluster/gluster-centos",
+		Image:       dockerrepotag,
 		Cmd:         []string{"/sbin/init"},
 		AttachStdin: true,
 		Tty:         true,
@@ -135,7 +138,7 @@ func Dockermode() {
 
 	}
 
-	gluster_container, err := client.CreateContainer(docker.CreateContainerOptions{"gluster-centos", containerConfig, hostConfig})
+	gluster_container, err := client.CreateContainer(docker.CreateContainerOptions{dockerImage, containerConfig, hostConfig})
 
 	if err != nil {
 		log.Fatal(err)
@@ -148,7 +151,7 @@ func Dockermode() {
 	new_container := client.StartContainer(gluster_container_id, hostConfig)
 
 	if new_container != nil {
-		fmt.Println("Gluster Container Started with ID:", new_container)
+		fmt.Println("Container Started with ID:", new_container)
 	}
 
 	fmt.Println("End of Docker Handler")
