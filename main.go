@@ -80,5 +80,5 @@ func main() {
 
 	}
 
-	heketicli.Connect()
+	//heketicli.Connect()
 }
