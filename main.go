@@ -32,7 +32,7 @@ import (
 	// client "github.com/mdevilliers/kubernetes/pkg/client"
 	// k8s.io/kubernetes/pkg/util/parsers
 	//../src/k8s.io/kubernetes/pkg/util/parsers/parsers.go:30: undefined: parsers.ParseRepositoryTag
-	//"github.com/humblec/aplo-prov/aploprov"
+	"github.com/humblec/aplo-prov/aploprov"
 	heketicli "github.com/humblec/aplo-prov/heketicli"
 )
 
@@ -66,7 +66,7 @@ func main() {
 
 	if mode == "docker" {
 		fmt.Println("Docker mode of execution ..exiting")
-		//go aploprov.docker_mode()
+		go aploprov.Dockermode()
 		time.Sleep(10000 * time.Millisecond)
 		os.Exit(1)
 
@@ -74,7 +74,7 @@ func main() {
 
 	if mode == "kube" {
 		fmt.Println("Kubernetes ..Proceeding")
-		//go aploprov.kube()
+		go aploprov.KubeMode()
 		time.Sleep(10000 * time.Millisecond)
 		os.Exit(1)
 

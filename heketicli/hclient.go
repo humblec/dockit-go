@@ -27,6 +27,8 @@ var (
 
 func Connect() {
 
+	//func main() {
+
 	fmt.Println("Heketi Client")
 
 	heketi_handler := hclient.NewClient(HEKETI_HOST, HEKETI_USER, HEKETI_KEY)
@@ -42,6 +44,10 @@ func Connect() {
 		fmt.Println("Looks like heketi is not running")
 	}
 	fmt.Println("Heketi Server is listening")
+	fmt.Println("Proceeding")
+	clusters, _ := heketi_handler.ClusterList()
+	fmt.Println(clusters)
+	fmt.Println("End of heketi handler")
 
 	/* Output
 
@@ -51,4 +57,5 @@ func Connect() {
 	Heketi Server is listening <nil>
 
 	*/
+
 }

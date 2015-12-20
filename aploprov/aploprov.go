@@ -29,7 +29,7 @@ import (
 	k8api "k8s.io/kubernetes/pkg/api"
 	"log"
 	"os"
-	"time"
+	//"time"
 	// Below repo have an error
 	// client "github.com/mdevilliers/kubernetes/pkg/client"
 	// k8s.io/kubernetes/pkg/util/parsers
@@ -43,7 +43,7 @@ var (
 	kubeService  = "gluster"
 )
 
-func docker_mode() {
+func Dockermode() {
 
 	fmt.Printf("Docker Image :%s", dockerImage)
 
@@ -159,7 +159,7 @@ func docker_mode() {
 	*/
 }
 
-func kube() {
+func Kubemode() {
 
 	fmt.Println("Kubernetes ..Proceeding")
 
