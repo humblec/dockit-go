@@ -169,12 +169,14 @@ func Kubemode() {
 	c, err := client.New(&config)
 
 	if err != nil {
+		fmt.Println("Failed to establish connection with: ", kubeHost)
 		log.Fatalln("Cant connect to Kubernetes API:", err)
 	}
 
 	s, err := c.Services(api.NamespaceDefault).Get(kubeService)
 
 	if err != nil {
+		fmt.Println("Failed to get service:", kubeService)
 		log.Fatalln("Can't get service:", err)
 	}
 

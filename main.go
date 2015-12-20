@@ -61,7 +61,7 @@ func main() {
 	*/
 
 	if mode == "docker" {
-		fmt.Println("Docker mode of execution ..exiting")
+		fmt.Println("Selected Mode: Docker ")
 		go aploprov.Dockermode()
 		time.Sleep(10000 * time.Millisecond)
 		os.Exit(1)
@@ -69,7 +69,7 @@ func main() {
 	}
 
 	if mode == "kube" {
-		fmt.Println("Kubernetes ..Proceeding")
+		fmt.Println("Selected Mode: Kubernetes ")
 		go aploprov.Kubemode()
 		time.Sleep(10000 * time.Millisecond)
 		os.Exit(1)
