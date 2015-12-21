@@ -47,9 +47,13 @@ func init() {
 	flag.BoolVar(&showVersion, "version", false, "Show version")
 }
 
+type Containermanager interface {
+	dockerManager()
+}
+
 func main() {
 
-	fmt.Println("Info: Aplo Provisioner ")
+	fmt.Println("Info: Aplo Provisioner started")
 
 	flag.Parse()
 
@@ -60,21 +64,25 @@ func main() {
 	   }
 	*/
 
-	if mode == "docker" {
+	switch mode {
+
+	case "docker":
+
 		fmt.Println("Selected Mode: Docker ")
 		go aploprov.Dockermode()
 		time.Sleep(10000 * time.Millisecond)
 		os.Exit(1)
 
-	}
+	case "kube":
 
-	if mode == "kube" {
 		fmt.Println("Selected Mode: Kubernetes ")
 		go aploprov.Kubemode()
 		time.Sleep(10000 * time.Millisecond)
 		os.Exit(1)
 
+	default:
+
+		heketicli.Connect()
 	}
 
-	heketicli.Connect()
 }

@@ -94,7 +94,7 @@ func Dockermode() {
 		os.Exit(1)
 	}
 
-	fmt.Println(infoenv)
+	fmt.Println("OPerating System: ", infoenv.GetList("OperatingSystem"))
 
 	// If we add support for specific OSs use below tag
 	//fmt.Println(infoenv.Get("OperatingSystem"))

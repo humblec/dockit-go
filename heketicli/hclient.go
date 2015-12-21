@@ -23,7 +23,7 @@ func Connect() {
 		fmt.Println("Failed to initiate the heketi client")
 	}
 
-	fmt.Println(heketi_handler)
+	//fmt.Println(heketi_handler)
 	hello := heketi_handler.Hello()
 	if hello != nil {
 		fmt.Println("Looks like heketi is not running")
