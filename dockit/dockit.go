@@ -18,7 +18,7 @@
 
 //package main
 
-package dockitgo
+package dockit
 
 import (
 	//"flag"
