@@ -18,7 +18,7 @@
 
 //package main
 
-package aploprov
+package dockitgo
 
 import (
 	//"flag"
